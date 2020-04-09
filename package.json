@@ -4,5 +4,9 @@
   "description": "Promise-based child process spawn",
   "main": "spawn.js",
   "author": "Dave Hermann",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davehermann/process-spawner"
+  }
 }
