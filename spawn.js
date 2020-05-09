@@ -4,10 +4,10 @@ const { spawn } = require(`child_process`);
  * Spawn a child process
  * @param {(String|Array<String>)} launchString - the entire string to run the process
  * @param {Object} spawnOptions - passed to the NodeJS spawn method
- * @param {Object} dataOptions - options for this method (isBinary, isJson)
+ * @param {Object} [dataOptions={}] - options for this method (isBinary, isJson)
  * @returns {Promise} Promise will resolve to the type of data [if] supplied, or reject with the error
  */
-function spawnChildProcess(launchString, spawnOptions, dataOptions) {
+function spawnChildProcess(launchString, spawnOptions, dataOptions = {}) {
     return new Promise((resolve, reject) => {
         let content = !!dataOptions && dataOptions.isBinary ? [] : ``,
             errText = ``,
