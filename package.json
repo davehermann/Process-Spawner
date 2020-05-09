@@ -1,6 +1,6 @@
 {
   "name": "@davehermann/process-spawner",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Promise-based child process spawn",
   "main": "spawn.js",
   "author": "Dave Hermann",
