@@ -1,29 +1,40 @@
-const { spawn } = require(`child_process`);
+import { spawn } from "child_process";
+
+/** Options for the data output */
+interface IDataOptions {
+    /** Format binary output */
+    isBinary?: boolean;
+    /** Format JSON output */
+    isJson?: boolean;
+    /**
+     * Send process back to caller.
+     *   - **MUST HANDLE *close* event**
+     */
+    consolePassthrough?: boolean;
+}
 
 /**
  * Spawn a child process
- * @param {(String|Array<String>)} launchString - the entire string to run the process
- * @param {Object} spawnOptions - passed to the NodeJS spawn method
- * @param {Object} [dataOptions={}] - options for this method
- * @param {Boolean} [dataOptions.isBinary] - Format binary output
- * @param {Boolean} [dataOptions.isJson] - Format JSON output
- * @param {Boolean} [dataOptions.consolePassthrough] - send process back to caller. MUST HANDLE "close" event
- * @returns {Promise} Promise will resolve to the type of data [if] supplied, or reject with the error
+ * @param launchString - the entire string to run the process
+ * @param spawnOptions - passed to the NodeJS spawn method
+ * @param dataOptions - options for this method
  */
-function spawnChildProcess(launchString, spawnOptions = undefined, dataOptions = {}) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function spawnChildProcess(launchString: string | Array<string>, spawnOptions: any = undefined, dataOptions: IDataOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-        let content = !!dataOptions && dataOptions.isBinary ? [] : ``,
+        const binaryContent: Array<Uint8Array> = [];
+        let stringContent = ``,
             errText = ``,
             launching = [];
 
         if (launchString instanceof Array)
             launching = launchString;
         else {
-            let parts = launchString.split(` `),
-                partsString = null;
+            const parts = launchString.split(` `);
+            let partsString = null;
 
             while (parts.length > 0) {
-                let thisPart = parts.shift();
+                const thisPart = parts.shift();
 
                 if (thisPart.search(/^"/) == 0)
                     partsString = thisPart.substr(1);
@@ -39,16 +50,16 @@ function spawnChildProcess(launchString, spawnOptions = undefined, dataOptions =
             }
         }
 
-        let spawnedProcess = spawn(launching.shift(), launching, spawnOptions);
+        const spawnedProcess = spawn(launching.shift(), launching, spawnOptions);
 
         if (dataOptions.consolePassthrough) {
             resolve(spawnedProcess);
         } else {
             spawnedProcess.stdout.on(`data`, (data) => {
                 if (dataOptions.isBinary)
-                    content.push(data);
+                    binaryContent.push(data);
                 else
-                    content += data;
+                    stringContent += data;
             });
 
             spawnedProcess.stderr.on(`data`, (data) => {
@@ -60,15 +71,17 @@ function spawnChildProcess(launchString, spawnOptions = undefined, dataOptions =
                     reject(errText);
                 else {
                     if (dataOptions.isBinary)
-                        resolve(Buffer.concat(content));
+                        resolve(Buffer.concat(binaryContent));
                     else if (dataOptions.isJson)
-                        resolve(JSON.parse(content));
+                        resolve(JSON.parse(stringContent));
                     else
-                        resolve(content);
+                        resolve(stringContent);
                 }
             });
         }
     });
 }
 
-module.exports.SpawnProcess = spawnChildProcess;
+export {
+    spawnChildProcess as SpawnProcess,
+};
