@@ -1,0 +1,11 @@
+{
+    "extends": "../tsconfig-base.json",
+    "compilerOptions": {
+        "declaration": true,
+        "outDir": "../dist",
+        "composite": true
+    },
+    "files": [
+        "spawn.ts"
+    ]
+}

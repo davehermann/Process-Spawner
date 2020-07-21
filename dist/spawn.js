@@ -8,15 +8,18 @@ const child_process_1 = require("child_process");
  * @param spawnOptions - passed to the NodeJS spawn method
  * @param dataOptions - options for this method
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function spawnChildProcess(launchString, spawnOptions = undefined, dataOptions = {}) {
     return new Promise((resolve, reject) => {
-        let binaryContent = [], stringContent = ``, errText = ``, launching = [];
+        const binaryContent = [];
+        let stringContent = ``, errText = ``, launching = [];
         if (launchString instanceof Array)
             launching = launchString;
         else {
-            let parts = launchString.split(` `), partsString = null;
+            const parts = launchString.split(` `);
+            let partsString = null;
             while (parts.length > 0) {
-                let thisPart = parts.shift();
+                const thisPart = parts.shift();
                 if (thisPart.search(/^"/) == 0)
                     partsString = thisPart.substr(1);
                 else if (partsString !== null)
@@ -29,7 +32,7 @@ function spawnChildProcess(launchString, spawnOptions = undefined, dataOptions =
                 }
             }
         }
-        let spawnedProcess = child_process_1.spawn(launching.shift(), launching, spawnOptions);
+        const spawnedProcess = child_process_1.spawn(launching.shift(), launching, spawnOptions);
         if (dataOptions.consolePassthrough) {
             resolve(spawnedProcess);
         }

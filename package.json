@@ -11,7 +11,9 @@
     "url": "https://github.com/davehermann/process-spawner"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc --build ./src",
+    "build:test": "tsc --build ./test",
+    "test": "node ./test/test.js"
   },
   "devDependencies": {
     "@types/node": "^14.0.24",

@@ -1,12 +1,7 @@
 {
     "compilerOptions": {
-        "declaration": true,
         "module": "CommonJS",
         "moduleResolution": "node",
-        "outDir": "./dist",
         "target": "ES6"
-    },
-    "files": [
-        "src/spawn.ts"
-    ]
+    }
 }

@@ -16,5 +16,5 @@ interface IDataOptions {
  * @param spawnOptions - passed to the NodeJS spawn method
  * @param dataOptions - options for this method
  */
-declare function spawnChildProcess(launchString: string | Array<string>, spawnOptions?: any, dataOptions?: IDataOptions): Promise<unknown>;
+declare function spawnChildProcess(launchString: string | Array<string>, spawnOptions?: any, dataOptions?: IDataOptions): Promise<any>;
 export { spawnChildProcess as SpawnProcess, };
