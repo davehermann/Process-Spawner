@@ -11,6 +11,7 @@
     "url": "https://github.com/davehermann/process-spawner"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "tsc --build ./src",
     "build:test": "tsc --build ./test",
     "test": "node ./test/test.js"
