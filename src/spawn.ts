@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { spawn, SpawnOptions } from "child_process";
 
 /** Options for the data output */
 interface IDataOptions {
@@ -20,7 +20,7 @@ interface IDataOptions {
  * @param dataOptions - options for this method
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function spawnChildProcess(launchString: string | Array<string>, spawnOptions: any = undefined, dataOptions: IDataOptions = {}): Promise<any> {
+function spawnChildProcess(launchString: string | Array<string>, spawnOptions: SpawnOptions = undefined, dataOptions: IDataOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
         const binaryContent: Array<Uint8Array> = [];
         let stringContent = ``,
